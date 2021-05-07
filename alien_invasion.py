@@ -41,13 +41,13 @@ def run_game():
         #     print(message)
         #     if event.type == pygame.QUIT:
         #         sys.exit()
-        #game_functions.check_events()q
+        #game_functions.check_events()
         gf.check_events(ai_settings,screen,ship,bullets)
         ship.update()
         bullets.update()
         # 删除已消失的子弹
-        gf.update_bullets(bullets)
-        gf.update_aliens(ai_settings,aliens)
+        gf.update_bullets(ai_settings,screen,ship,aliens,bullets)
+        gf.update_aliens(ai_settings,ship,aliens)
         # for bullet in bullets.copy():
         #     if bullet.rect.bottom <=0:
         #         bullets.remove(bullet)
