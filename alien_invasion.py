@@ -4,6 +4,7 @@ import pygame
 from pygame.sprite import Group
 
 import game_functions as gf
+from GsmeStats import GameStats
 from alien import Alien
 from settings import Settings
 from ship import Ship
@@ -15,12 +16,14 @@ def run_game():
     pygame.init()
 
     ##screen = pygame.display.set_mode((1200,800))
-
+    ai_settings = Settings()
+    screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
 
     pygame.display.set_caption("Alien Invasion")
 
-    ai_settings = Settings()
-    screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
+    stats = GameStats(ai_settings)
+
+
     ship = Ship(ai_settings,screen)
     #创建一个用于存储子弹的编组
     bullets = Group()
@@ -43,20 +46,21 @@ def run_game():
         #         sys.exit()
         #game_functions.check_events()
         gf.check_events(ai_settings,screen,ship,bullets)
-        ship.update()
-        bullets.update()
-        # 删除已消失的子弹
-        gf.update_bullets(ai_settings,screen,ship,aliens,bullets)
-        gf.update_aliens(ai_settings,ship,aliens)
-        # for bullet in bullets.copy():
-        #     if bullet.rect.bottom <=0:
-        #         bullets.remove(bullet)
-        # print(len(bullets))
-        #screen.fill(ai_settings.bg_color)
-        #ship.blitme()
-        ##set bg
-        #screen.fill(bg_color)
-        #pygame.display.flip()
+        if stats.game_active:
+            ship.update()
+            bullets.update()
+            # 删除已消失的子弹
+            gf.update_bullets(ai_settings,screen,ship,aliens,bullets)
+            gf.update_aliens(ai_settings,stats,screen,ship,aliens,bullets)
+            # for bullet in bullets.copy():
+            #     if bullet.rect.bottom <=0:
+            #         bullets.remove(bullet)
+            # print(len(bullets))
+            #screen.fill(ai_settings.bg_color)
+            #ship.blitme()
+            ##set bg
+            #screen.fill(bg_color)
+            #pygame.display.flip()
         gf.update_screen(ai_settings,screen,ship,aliens,bullets)
 
 run_game()

@@ -1,4 +1,6 @@
 import sys
+from time import sleep
+
 import pygame
 
 from Bullet import Bullet
@@ -126,11 +128,14 @@ def create_fleet(ai_settings, screen, ship, aliens):
             creat_alien(ai_settings, screen, aliens, alien_number, row_number)
 
 
-def update_aliens(ai_settings,ship,aliens):
+def update_aliens(ai_settings,stats,screen,ship,aliens,bullets):
     check_fleet_edges(ai_settings,aliens)
     aliens.update()
     if pygame.sprite.spritecollideany(ship,aliens):
-        print("Ship Hit!!!!!")
+        #print("Ship Hit!!!!!")
+        ship_hit(ai_settings,stats,screen,ship,aliens,bullets)
+
+    check_aliens_bottom(ai_settings, screen, stats, ship, aliens, bullets)
 
 
 def check_fleet_edges(ai_settings, aliens):
@@ -144,3 +149,30 @@ def change_fleet_direction(ai_settings, aliens):
     for alien in aliens.sprites():
         alien.rect.y += ai_settings.fleet_drop_speed
     ai_settings.fleet_direction *= -1
+
+def ship_hit(ai_settings,stats,screen,ship,aliens,bullets):
+    """响应被外星人撞到的飞船"""
+    if stats.ships_left > 0:
+       # 将ships_left 减一
+       stats.ships_left -= 1
+
+       # 清空外星人和子弹列表
+       aliens.empty()
+       bullets.empty()
+
+       #创建一群新的外星人，并将飞船放到屏幕底部
+       create_fleet(ai_settings,screen,ship,aliens)
+       ship.center_ship()
+
+       #暂停
+       sleep(0.5)
+    else:
+        stats.game_active = False
+
+def check_aliens_bottom(ai_settings, screen, stats, ship, aliens,bullets):
+    screen_rect = screen.get_rect()
+    for alien in aliens.sprites():
+        if alien.rect.bottom >= screen_rect.bottom:
+            ship_hit(ai_settings, screen, stats, ship, aliens, bullets)
+            break
+
