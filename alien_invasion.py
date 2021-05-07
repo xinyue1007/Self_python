@@ -27,7 +27,7 @@ def run_game():
     #alien =Alien(ai_settings,screen)
     #创建一组外星人
     aliens = Group()
-    gf.create_fleet(ai_settings,screen,aliens)
+    gf.create_fleet(ai_settings,screen,ship,aliens)
 
 
     ##set bg
@@ -47,6 +47,7 @@ def run_game():
         bullets.update()
         # 删除已消失的子弹
         gf.update_bullets(bullets)
+        gf.update_aliens(ai_settings,aliens)
         # for bullet in bullets.copy():
         #     if bullet.rect.bottom <=0:
         #         bullets.remove(bullet)
