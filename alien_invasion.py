@@ -1,6 +1,7 @@
 import sys
 import form as form
 import pygame
+from pygame.sprite import Group
 
 import game_functions as gf
 from settings import Settings
@@ -19,7 +20,9 @@ def run_game():
 
     ai_settings = Settings()
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
-    ship = Ship(screen)
+    ship = Ship(ai_settings,screen)
+    #创建一个用于存储子弹的编组
+    bullets = Group()
 
 
     ##set bg
@@ -33,14 +36,15 @@ def run_game():
         #     print(message)
         #     if event.type == pygame.QUIT:
         #         sys.exit()
-        #game_functions.check_events()
-        gf.check_events(ship)
+        #game_functions.check_events()q
+        gf.check_events(ai_settings,screen,ship,bullets)
         ship.update()
+        bullets.update()
         #screen.fill(ai_settings.bg_color)
         #ship.blitme()
         ##set bg
         #screen.fill(bg_color)
         #pygame.display.flip()
-        gf.update_screen(ai_settings,screen,ship)
+        gf.update_screen(ai_settings,screen,ship,bullets)
 
 run_game()
