@@ -4,6 +4,7 @@ import pygame
 from pygame.sprite import Group
 
 import game_functions as gf
+from Button import Button
 from GsmeStats import GameStats
 from alien import Alien
 from settings import Settings
@@ -20,6 +21,8 @@ def run_game():
     screen = pygame.display.set_mode((ai_settings.screen_width,ai_settings.screen_height))
 
     pygame.display.set_caption("Alien Invasion")
+
+    play_button = Button(ai_settings,screen,"Play")
 
     stats = GameStats(ai_settings)
 
@@ -45,7 +48,7 @@ def run_game():
         #     if event.type == pygame.QUIT:
         #         sys.exit()
         #game_functions.check_events()
-        gf.check_events(ai_settings,screen,ship,bullets)
+        gf.check_events(ai_settings,screen,stats,play_button,ship,aliens,bullets)
         if stats.game_active:
             ship.update()
             bullets.update()
@@ -61,6 +64,6 @@ def run_game():
             ##set bg
             #screen.fill(bg_color)
             #pygame.display.flip()
-        gf.update_screen(ai_settings,screen,ship,aliens,bullets)
+        gf.update_screen(ai_settings,screen,stats,ship,aliens,bullets,play_button)
 
 run_game()
