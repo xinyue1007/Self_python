@@ -1,4 +1,5 @@
 import sys
+from random import randint
 from time import sleep
 
 import pygame
@@ -37,7 +38,7 @@ def check_keyup_events(event, ship):
 def check_events(ai_settings, screen, stats, play_button, ship, aliens,bullets):
     for event in pygame.event.get():
         message = "event.type = " + str(event.type)
-        print(message)
+        #print(message)
         if event.type == pygame.QUIT:
             sys.exit()
         elif event.type == pygame.KEYDOWN:
@@ -136,6 +137,8 @@ def get_number_aliens_x(ai_settings, alien_width):
     """计算每行可以容纳多少哥外星人"""
     available_space_x = ai_settings.screen_width - 2 * alien_width
     number_aliens_x = int(available_space_x / (2 * alien_width))
+
+
     return number_aliens_x
 
 
@@ -153,8 +156,14 @@ def create_fleet(ai_settings, screen, ship, aliens):
     alien = Alien(ai_settings, screen)
     number_aliens_x = get_number_aliens_x(ai_settings, alien.rect.width)
     number_rows = get_number_rows(ai_settings, ship.rect.height, alien.rect.height)
+    #tmp = max(range(number_aliens_x))
+    #randint_number_aliens_x = randint(0,tmp)
     for row_number in range(number_rows):
-        for alien_number in range(number_aliens_x):
+        print("row_number: ", row_number)
+        number_aliens_x_loop = randint(0, number_aliens_x)
+        print("number_aliens_x vvv: ", number_aliens_x_loop)
+        for alien_number in range(number_aliens_x_loop):
+            print("number_aliens_x:  ",alien_number)
             creat_alien(ai_settings, screen, aliens, alien_number, row_number)
 
 

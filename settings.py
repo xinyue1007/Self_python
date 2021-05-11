@@ -20,7 +20,7 @@ class Settings():
         self.fleet_drop_speed = 10
         # fleet_direction为1表示右移，-1表示左移
         self.fleet_direction = 1
-        self.ship_limit = 3
+        self.ship_limit = 1
 
         #以什么样速度加快游戏节奏
         self.speedup_scale = 1.1
@@ -30,7 +30,7 @@ class Settings():
 
     def initialize_dynamic_settings(self):
         """初始化随游戏进行而变化的设置"""
-        self.ship_speed_factor = 1.5
+        self.ship_speed_factor = 1
         self.bullet_speed_factor = 3
         self.alien_speed_factor = 1
         #fleet_direction为1表示向右
